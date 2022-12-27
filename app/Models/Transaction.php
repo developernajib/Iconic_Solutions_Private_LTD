@@ -14,8 +14,8 @@ class Transaction extends Model
         'amount',
     ];
 
-    public function users()
-    {
-        return $this->hasMany('App\Models\User', 'role_id', 'id');
-    }
+    // public function users()
+    // {
+    //     return $this->hasMany('App\Models\User', 'role_id', 'id');
+    // }
 }

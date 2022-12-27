@@ -22,8 +22,8 @@ Route::get('/', function () {
 });
 
 Route::get('dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return redirect()->route("dashboard");
+})->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -51,7 +51,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-Route::middleware(['web', 'verified'])->prefix('user')->group(function () {
+Route::middleware(['web'])->prefix('user')->group(function () {
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [UserController::class, 'UserDashboard'])->name('dashboard');
@@ -63,7 +63,7 @@ Route::middleware(['web', 'verified'])->prefix('user')->group(function () {
         Route::prefix('transaction')->group(function () {
             Route::get('/view', [TransactionController::class, 'UserTransactionView'])->name('user_transaction_view');
             Route::get('/create', [TransactionController::class, 'UserTransactionCreate'])->name('user_transaction_create');
-            Route::post('/create', [TransactionController::class, 'UserTransactionCStore'])->name('user_transaction_create_store');
+            Route::post('/create/store', [TransactionController::class, 'UserTransactionCStore'])->name('user_transaction_create_store');
         });
     });
 });

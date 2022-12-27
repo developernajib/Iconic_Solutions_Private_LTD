@@ -18,7 +18,7 @@
             <span>Dashboard</span></a>
     </li>
 
-    <li class="nav-item {{ $route == 'user_transaction_view' ? 'active' : '' }}">
+    <li class="nav-item {{ $route == 'user_transaction_view' || 'user_transaction_create' ? 'active' : '' }}">
         <a class="nav-link collapsed" href="{{ route('user_transaction_view') }}" data-toggle="collapse"
             data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             <i class="fa-solid fa-paper-plane"></i>
@@ -27,8 +27,10 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Transaction:</h6>
-                <a class="collapse-item" href="{{ route('user_transaction_view') }}">View</a>
-                <a class="collapse-item" href="{{ route('user_transaction_create') }}">Create</a>
+                <a class="collapse-item {{ $route == 'user_transaction_view' ? 'active' : '' }}"
+                    href="{{ route('user_transaction_view') }}">View</a>
+                <a class="collapse-item {{ $route == 'user_transaction_create' ? 'active' : '' }}"
+                    href="{{ route('user_transaction_create') }}">Create</a>
             </div>
         </div>
     </li>

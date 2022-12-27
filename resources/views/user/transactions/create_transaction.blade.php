@@ -2,7 +2,7 @@
 @section('title', 'Dashboard')
 @section('user')
 
-    <form action="{{ route('user_transaction_create_store') }}">
+    <form action="{{ route('user_transaction_create_store') }}" method="post">
         @csrf
         <label for="fname">To:</label><br>
         <input type="email" name="to" placeholder="Receiver email address">

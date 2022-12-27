@@ -12,19 +12,17 @@ class UserController extends Controller
 {
     public function UserDashboard()
     {
-        $wallet_id = User::find(11)->WalletConnection;
+        // $wallet_id = User::find(11)->WalletConnection;
 
         $notificationSuccess = array(
-            'message' => 'User Login Successfully',
+            'message' => 'Login successful',
             'alert-type' => 'success',
         );
-
         return view('dashboard')->with($notificationSuccess);
     }
 
     public function UserCreateWallet()
     {
-        // dd(Auth::user());
         return view('user.create_wallet');
     }
 
@@ -54,16 +52,5 @@ class UserController extends Controller
 
             return redirect()->route('dashboard')->with($notificationSuccess);
         }
-    }
-
-
-    public function ViewTransaction()
-    {
-        echo "viewTransaction";
-    }
-
-    public function CreateTransaction()
-    {
-        echo "createTransaction";
     }
 }

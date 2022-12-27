@@ -4,7 +4,7 @@
     <div class="flex">
 
         @if (Session::has('alert'))
-            <div class="alert alert-warning" role="alert">
+            <div class="alert alert-warning" role="alert" style="background: #F89406;padding: 10px;border-radius: 10px;">
                 <strong>{{ session::get('alert') }}</strong>
             </div>
         @endif
