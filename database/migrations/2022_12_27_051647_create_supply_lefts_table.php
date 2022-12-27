@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('total_supplies', function (Blueprint $table) {
+        Schema::create('supply_lefts', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_supply');
-            $table->string('base_currency')->default("USD");
+            $table->integer('total_supply_left')->default(989000);
+            $table->tinyInteger('main_supply')->default(1);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('total_supplies');
+        Schema::dropIfExists('supply_lefts');
     }
 };

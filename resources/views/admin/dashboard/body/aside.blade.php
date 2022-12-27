@@ -32,6 +32,11 @@
             <i class="fa-solid fa-paper-plane"></i>
             <span>Transactions</span></a>
     </li>
+    <li class="nav-item {{ $route == 'admin_wallet_deposit' ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin_wallet_deposit') }}">
+            <i class="fa-solid fa-upload"></i>
+            <span>Deposite</span></a>
+    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"

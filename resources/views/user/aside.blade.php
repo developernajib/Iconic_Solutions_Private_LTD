@@ -48,7 +48,7 @@
                     <button type="submit" class="collapse-item"
                         title="Don't click if you don't want create a wallet">Create Wallet</button>
                 </form>
-                <a class="collapse-item" href="cards.html">Cards</a>
+                {{-- <a class="collapse-item" href="{{route('')}}">Cards</a> --}}
             </div>
         </div>
     </li>

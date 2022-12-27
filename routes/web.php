@@ -47,7 +47,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'AdminDashboard'])->name('admin_dashboard');
         Route::get('/user', [AdminController::class, 'UserData'])->name('admin_user_data');
         Route::get('/total-supply', [AdminController::class, 'TotalSupply'])->name('admin_total_supply');
-        Route::get('/transaction', [TransactionController::class, 'TransactionView'])->name('admin_transaction_view');
+        Route::get('/transaction', [AdminController::class, 'TransactionView'])->name('admin_transaction_view');
+        Route::get('/deposit', [AdminController::class, 'WalletDeposit'])->name('admin_wallet_deposit');
+        Route::post('/deposit/store', [AdminController::class, 'WalletDepositStore'])->name('admin_wallet_deposit_store');
     });
 });
 

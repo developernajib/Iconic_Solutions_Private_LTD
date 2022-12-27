@@ -18,7 +18,7 @@ class TotalSupplyFactory extends Factory
     public function definition()
     {
         return [
-            'total_supply' => "1000000",
+            'total_supply' => 1000000,
             'base_currency' => 'USD',
             'created_at' => Carbon::now(),
         ];

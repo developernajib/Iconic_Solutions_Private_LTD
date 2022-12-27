@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class SupplyLeft extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'from',
-        'to',
-        'amount',
+        'total_supply_left',
+        'main_supply',
     ];
 
-    public function TransactionConnection()
+    public function SupplyConnection()
     {
-        return $this->hasMany(Transaction::class, 'email', 'from');
+        return $this->hasOne(Transaction::class, 'main_supply', 'id');
     }
 }

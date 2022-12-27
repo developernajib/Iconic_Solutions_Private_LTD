@@ -23,7 +23,7 @@
                                 <td>{{ $userTransaction->from }}</td>
                                 <td>{{ $userTransaction->to }}</td>
                                 <td>{{ number_format($userTransaction->amount, 2) }}</td>
-                                <td>{{ $userTransaction->time }}</td>
+                                <td>{{ $userTransaction->created_at->diffForHumans() }}</td>
                             </tr>
                         @endforeach
                     </tbody>

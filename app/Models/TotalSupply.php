@@ -16,6 +16,6 @@ class TotalSupply extends Model
 
     public function SupplyID()
     {
-        return $this->belongsTo(User::class, 'supply_id', 'id');
+        return $this->hasOne(User::class, 'supply_id', 'id');
     }
 }

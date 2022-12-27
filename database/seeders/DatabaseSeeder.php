@@ -13,6 +13,7 @@ use App\Models\SupportedCurrency;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Models\SupplyLeft;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,15 +27,18 @@ class DatabaseSeeder extends Seeder
         Admin::factory(1)->create();
         User::factory(10)->create();
         TotalSupply::factory(1)->create();
-        SupportedCurrency::factory(3)->create();
+        SupportedCurrency::factory(1)->create();
         Wallet::factory(1)->create();
         Transaction::factory(1)->create();
+        SupplyLeft::factory(1)->create();
 
         User::factory()->create([
             'name' => 'Md. Najib Islam',
             'email' => 'user@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make("123456789"), // 123456789
+            'country' => 'Bangladesh',
+            'wallet_id' => 1,
             'remember_token' => Str::random(10),
             'status' => 1,
         ]);
@@ -43,13 +47,15 @@ class DatabaseSeeder extends Seeder
             'email' => 'user2@gmail.com',
             'email_verified_at' => Carbon::now(),
             'password' => Hash::make("123456789"), // 123456789
+            'country' => 'USA',
+            'wallet_id' => 2,
             'remember_token' => Str::random(10),
             'status' => 1,
         ]);
         Wallet::factory()->create([
             'user_id' => 12,
             'email' => 'user2@gmail.com',
-            'amount' => 1000,
+            'amount' => 10100,
             'supply_id' => 1,
         ]);
     }

@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-use App\Models\Admin;
 use App\Models\User;
+use App\Models\Admin;
+use App\Models\Wallet;
+use App\Models\Transaction;
 use App\Models\TotalSupply;
-use Illuminate\Support\Facades\Auth;
+use App\Models\SupplyLeft;
 
 class AdminController extends Controller
 {
@@ -82,6 +85,107 @@ class AdminController extends Controller
     public function TotalSupply()
     {
         $totalSupply = TotalSupply::find(1);
-        return view("dashboard.total_supply", compact("totalSupply"));
+        $leftOverSupply = SupplyLeft::find(1);
+        return view("admin.dashboard.total_supply", compact("totalSupply", "leftOverSupply"));
+    }
+
+    public function TransactionView()
+    {
+        $userTransactions = Transaction::all();
+        return view("admin.dashboard.transaction", compact("userTransactions"));
+    }
+    public function WalletDeposit()
+    {
+        return view("admin.dashboard.deposit");
+    }
+
+    public function WalletDepositStore(Request $request)
+    {
+        // email & amount check
+        $checkEmail = $request->to;
+        $gettingWalletAmount = Wallet::where('email', $checkEmail)->first();
+
+        if (User::where('email', $checkEmail)->exists()) {
+            if ((SupplyLeft::find(1)->total_supply_left) >= 0) {
+
+                // creating a new transaction
+                $AdminDeposit = new Transaction();
+                $AdminDeposit->from = Admin::find(1)->email;
+                $AdminDeposit->to = $gettingWalletAmount->email;
+
+
+                // validating the transaction amount
+                $gettingLeftOverSupply = SupplyLeft::find(1)->total_supply_left;
+                if ($gettingLeftOverSupply >= ($request->amount)) {
+
+                    if ($request->amount <= 0) {
+                        $notification = array(
+                            'message' => "Please enter a valid amount",
+                            'alert-type' => 'warning',
+                        );
+                        return redirect()->back()->with($notification);
+                    }
+
+                    $AdminDeposit->amount = $request->amount;
+                    $gettingWalletAmount->save();
+
+                    // updating user wallet with balance
+                    $walletUpdate = Wallet::where('email',  $request->to)->first();
+                    $totalAmount = ($gettingWalletAmount->amount) + ($request->amount);
+                    $walletUpdate->amount = $totalAmount;
+                    $walletUpdate->save();
+
+                    // Transaction part
+                    $AdminDeposit->status = 1;
+                    $AdminDeposit->save();
+
+
+                    // update leftover supply amount
+                    $totalSupply = TotalSupply::find(1)->total_supply;
+                    $WalletCalcs = Wallet::where('supply_id', 1)->get();
+                    $supplyLeft = 0;
+                    foreach ($WalletCalcs as $WalletCalc) {
+                        $supplyLeft = $WalletCalc->amount + $supplyLeft;
+                    }
+                    $totalSupplyLeft = $totalSupply - $supplyLeft;
+                    $updateSupply = SupplyLeft::find(1);
+                    $updateSupply->total_supply_left = $totalSupplyLeft;
+                    $updateSupply->save();
+
+
+
+                    $notification = array(
+                        'message' => "Transaction completed successfully",
+                        'alert-type' => 'success',
+                    );
+                    return redirect()->route('admin_transaction_view')->with($notification);
+                } else {
+                    $notification = array(
+                        'message' => "User doesn't exist",
+                        'alert-type' => 'warning',
+                    );
+
+                    return redirect()->route('admin_transaction_view')->with($notification);
+                }
+            } else {
+
+                $notification = array(
+                    'message' => 'Insufficient Balance',
+                    'alert-type' => 'warning',
+                );
+
+
+                return redirect()->route('admin_transaction_view')->with($notification);
+            }
+        } else {
+
+            $notification = array(
+                'message' => "User's wallet does not exist",
+                'alert-type' => 'warning',
+            );
+
+
+            return redirect()->route('admin_transaction_view')->with($notification);
+        }
     }
 }

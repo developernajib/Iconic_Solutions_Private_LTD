@@ -12,6 +12,6 @@
         <input type="number" name="amount" placeholder="Amount in USD">
         <br>
         <br>
-        <input type="submit" value="Submit" class="btn btn-primary" style="color: black;">
+        <input type="submit" value="Transact" class="btn btn-primary" style="color: black;">
     </form>
 @endsection

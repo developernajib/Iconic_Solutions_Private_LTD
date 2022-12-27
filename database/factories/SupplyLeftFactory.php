@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Wallet>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SupplyLeft>
  */
-class WalletFactory extends Factory
+class SupplyLeftFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,8 @@ class WalletFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 11,
-            'email' => 'user@gmail.com',
-            'amount' => 9900,
-            'supply_id' => 1,
+            'total_supply_left' => 980000,
+            'main_supply' => 1,
         ];
     }
 }

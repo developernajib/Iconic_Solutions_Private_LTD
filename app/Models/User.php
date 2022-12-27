@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Wallet;
+use App\Models\SupplyLeft;
 use App\Models\SupportedCurrency;
 
 class User extends Authenticatable
@@ -34,8 +35,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
     }
+
     public function CountryId()
     {
         return $this->belongsTo(SupportedCurrency::class, 'country', 'country');
+    }
+
+    public function TransactionId()
+    {
+        return $this->belongsTo(Transaction::class, 'email', 'from');
+    }
+
+    public function SupplyId()
+    {
+        return $this->belongsTo(SupplyLeft::class, 'main_supply', 'id');
     }
 }
