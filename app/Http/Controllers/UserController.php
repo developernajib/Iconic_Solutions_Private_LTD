@@ -26,7 +26,7 @@ class UserController extends Controller
         return view('user.create_wallet');
     }
 
-    public function UserWalletStore(Request $request)
+    public function UserWalletStore()
     {
         $notification = array(
             'message' => 'Wallet already exists.',
