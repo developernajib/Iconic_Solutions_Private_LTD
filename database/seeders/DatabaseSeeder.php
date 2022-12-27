@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
         TotalSupply::factory(1)->create();
         SupportedCurrency::factory(1)->create();
         Wallet::factory(1)->create();
-        Transaction::factory(1)->create();
         SupplyLeft::factory(1)->create();
 
         User::factory()->create([
@@ -52,6 +51,21 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'status' => 1,
         ]);
+        Transaction::factory()->create([
+            'from' => 'admin@gmail.com',
+            'to' => 'user@gmail.com',
+            'amount' => 10000,
+            'status' => 1,
+        ]);
+        Transaction::factory()->create([
+            'from' => 'admin@gmail.com',
+            'to' => 'user2@gmail.com',
+            'amount' => 10000,
+            'status' => 1,
+        ]);
+
+        Transaction::factory(1)->create();
+
         Wallet::factory()->create([
             'user_id' => 12,
             'email' => 'user2@gmail.com',
