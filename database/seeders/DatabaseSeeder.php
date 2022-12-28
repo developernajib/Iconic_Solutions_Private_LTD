@@ -72,5 +72,15 @@ class DatabaseSeeder extends Seeder
             'amount' => 10100,
             'supply_id' => 1,
         ]);
+        SupportedCurrency::factory()->create([
+            'country' => 'Bangladesh',
+            'currency' => 'BDT',
+            'created_at' => Carbon::now(),
+        ]);
+        SupportedCurrency::factory()->create([
+            'country' => 'Europe',
+            'currency' => 'EUR',
+            'created_at' => Carbon::now(),
+        ]);
     }
 }
