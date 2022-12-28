@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2022 at 11:28 AM
+-- Generation Time: Dec 28, 2022 at 01:02 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -162,7 +162,9 @@ CREATE TABLE `supported_currencies` (
 --
 
 INSERT INTO `supported_currencies` (`id`, `currency`, `country`, `created_at`, `updated_at`) VALUES
-(1, 'USD', 'USA', '2022-12-27 03:17:31', '2022-12-27 03:17:31');
+(1, 'USD', 'USA', '2022-12-27 03:17:31', '2022-12-27 03:17:31'),
+(2, 'BDT', 'Bangladesh', '2022-12-28 11:02:06', '2022-12-28 11:02:07'),
+(3, 'EUR', 'Europe', '2022-12-28 11:02:04', '2022-12-28 11:02:05');
 
 -- --------------------------------------------------------
 
@@ -390,7 +392,7 @@ ALTER TABLE `supply_lefts`
 -- AUTO_INCREMENT for table `supported_currencies`
 --
 ALTER TABLE `supported_currencies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `total_supplies`

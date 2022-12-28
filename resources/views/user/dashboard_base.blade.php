@@ -22,11 +22,6 @@
             <div id="content">
                 <x-app-layout>
                     <div class="container-fluid mt-4">
-                        @if (Session::has('alert'))
-                            <div class="alert alert-warning" role="alert">
-                                <strong>{{ session::get('alert') }}</strong>
-                            </div>
-                        @endif
 
                         @yield('user')
 

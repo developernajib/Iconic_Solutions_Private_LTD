@@ -61,6 +61,7 @@ Route::middleware(['web'])->prefix('user')->group(function () {
 
         Route::get('/create-wallet', [UserController::class, 'UserCreateWallet'])->name('user_create_wallet');
         Route::post('/create-wallet/set', [UserController::class, 'UserWalletStore'])->name('user_wallet_store');
+        Route::post('/currency-conversion/store', [UserController::class, 'CurrencyConversionStore'])->name('currency_conversion_store');
 
         Route::prefix('transaction')->group(function () {
             Route::get('/view', [TransactionController::class, 'UserTransactionView'])->name('user_transaction_view');

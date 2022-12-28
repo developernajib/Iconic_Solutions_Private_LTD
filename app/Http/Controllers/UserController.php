@@ -5,19 +5,74 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use GuzzleHttp\Client;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Models\SupportedCurrency;
 
 class UserController extends Controller
 {
     public function UserDashboard()
     {
+        $supportedCurrencies = SupportedCurrency::all();
+        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+        $walletBalance = $wallet->amount;
+        // dd($walletBalance);
         $notificationSuccess = array(
             'message' => 'Login successful',
             'alert-type' => 'success',
         );
-        return view('dashboard')->with($notificationSuccess);
+
+
+        // $client = new Client();
+        // $response = $client->request('GET', 'https://api.exchangeratesapi.io/latest', [
+        //     'query' => [
+        //         'base' => 'USD',
+        //         'symbols' => 'BDT',
+        //     ]
+        // ]);
+
+        // $data = json_decode($response->getBody(), true);
+        // // dd($data);
+
+        // $exchangeRate = $data['rates']['BDT'];
+        // $bdtAmount = $walletBalance * $exchangeRate;
+        // // dd($bdtAmount);
+
+        return view('dashboard', compact("supportedCurrencies", "walletBalance"))->with($notificationSuccess);
+    }
+
+    public function CurrencyConversionStore(Request $request)
+    {
+        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+        $walletBalance = $wallet->amount;
+
+        $currency = $request->currency;
+        $curl = curl_init();
+        $API_KEY = env('CURRENCY_CONVERTER_API');
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.apilayer.com/exchangerates_data/convert?to=$currency&from=USD&amount=$walletBalance",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: text/plain",
+                "apikey: $API_KEY"
+            ),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET"
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $json = $response;
+        $data = json_decode($json);
+        $conversionAmount = $data->result;
+
+        return redirect()->back()->with("alert", "$currency amount is: " . number_format($conversionAmount, 2) . " " . $currency);
     }
 
     public function UserCreateWallet()
