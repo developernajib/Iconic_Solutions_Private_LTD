@@ -14,6 +14,7 @@
                             <th>Id</th>
                             <th>From</th>
                             <th>To</th>
+                            <th>Amount</th>
                             <th>Created</th>
                         </tr>
                     </thead>
@@ -23,6 +24,7 @@
                                 <td>{{ $thirdHighestRecord->id }}</td>
                                 <td>{{ $thirdHighestRecord->from }}</td>
                                 <td>{{ $thirdHighestRecord->to }}</td>
+                                <td>{{ $thirdHighestRecord->amount }} USD</td>
                                 <td>{{ $thirdHighestRecord->created_at->diffForHumans() }}</td>
                             </tr>
                         @endforeach
