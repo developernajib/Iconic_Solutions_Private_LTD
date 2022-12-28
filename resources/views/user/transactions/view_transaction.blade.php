@@ -28,7 +28,18 @@
                         @endforeach
                     </tbody>
                 </table>
-
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th><mark>Total transaction amount</mark></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td><mark><b>{{ $gettingSpecificUserTransactionsAmount }} USD</b></mark></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

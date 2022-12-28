@@ -6,14 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Models\Transaction;
 use App\Models\Wallet;
 
 class UserController extends Controller
 {
     public function UserDashboard()
     {
-        // $wallet_id = User::find(11)->WalletConnection;
-
         $notificationSuccess = array(
             'message' => 'Login successful',
             'alert-type' => 'success',

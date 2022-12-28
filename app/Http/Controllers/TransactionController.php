@@ -14,12 +14,20 @@ class TransactionController extends Controller
 {
     public function UserTransactionView()
     {
+        // getting all transaction total amount
+        $gettingSpecificUserTransactionsAmount = 0;
+        $gettingSpecificUserTransactions = Transaction::where('from', Auth::user()->email)->get();
+
+        foreach ($gettingSpecificUserTransactions as $gettingSpecificUserTransaction) {
+            $gettingSpecificUserTransactionsAmount = $gettingSpecificUserTransaction->amount + $gettingSpecificUserTransactionsAmount;
+        };
+
         // getting user email address to find out his/her transactions
         $gettingUser = Auth::user()->id;
         $transactions = User::find($gettingUser)->TransactionId->from;
 
         $userTransactions = Transaction::where('from', $transactions)->get();
-        return view("user.transactions.view_transaction", compact("userTransactions"));
+        return view("user.transactions.view_transaction", compact("userTransactions", "gettingSpecificUserTransactionsAmount"));
     }
 
     public function UserTransactionCreate()
@@ -101,20 +109,20 @@ class TransactionController extends Controller
                 return redirect()->route('user_transaction_view')->with($notification);
             } else {
                 $notification = array(
-                    'message' => "User doesn't exist",
+                    'message' => 'Insufficient Balance',
                     'alert-type' => 'warning',
                 );
+
 
                 return redirect()->route('user_transaction_view')->with($notification);
             }
         } else {
             $notification = array(
-                'message' => 'Insufficient Balance',
+                'message' => "User wallet doesn't exist. Ask him/her to create a new wallet",
                 'alert-type' => 'warning',
             );
 
-
-            return redirect()->route('user_transaction_view')->with($notification);
+            return redirect()->route('user_transaction_create')->with($notification);
         }
     }
 }
