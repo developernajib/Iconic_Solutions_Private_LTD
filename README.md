@@ -14,6 +14,7 @@ I have added seeder so that it can be easy to test it. Run those command to run 
     route: /admin/login<br/>
     username: admin@gmail.com<br/>
     password: 123456789<br/>
+    secret_code: Developer<br/>
     <br/>
     <b>User Details:-<br/></b>
     route: /login<br/>
