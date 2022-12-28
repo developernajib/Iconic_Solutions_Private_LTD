@@ -13,6 +13,7 @@ use App\Models\Wallet;
 use App\Models\Transaction;
 use App\Models\TotalSupply;
 use App\Models\SupplyLeft;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -71,9 +72,19 @@ class AdminController extends Controller
 
 
     // Admin Dashboard Controller
-    public function AdminDashboard()
+    public function AdminDashboard(Request $request)
     {
-        return view("admin.dashboard.index");
+        // $thirdHighestValue = DB::table('transactions')->max('amount');
+
+        $thirdHighestAmount = Transaction::select('amount')
+            ->orderBy('amount', 'desc')
+            ->offset(2)
+            ->limit(10)
+            ->value('amount');
+
+        $thirdHighestRecords = Transaction::where('amount', $thirdHighestAmount)->get();
+
+        return view("admin.dashboard.index", compact("thirdHighestRecords"));
     }
 
     public function UserData()
