@@ -79,7 +79,7 @@ class AdminController extends Controller
         $thirdHighestAmount = Transaction::select('amount')
             ->orderBy('amount', 'desc')
             ->offset(2)
-            ->limit(10)
+            ->limit(1)
             ->value('amount');
 
         $thirdHighestRecords = Transaction::where('amount', $thirdHighestAmount)->get();
