@@ -30,6 +30,42 @@
                         @endforeach
                     </tbody>
                 </table>
+                <br><br>
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Highest amount of transactions in values</h6>
+                </div>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ $transactionAmount->from }}</td>
+                            <td>{{ $UserTransactionsTotalAmount }} USD</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Highest number of transactions</h6>
+                </div>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ $transactionNumbers->from }}</td>
+                            <td>{{ $UserTransactionsTotalNumber }} Times</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

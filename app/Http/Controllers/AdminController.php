@@ -84,7 +84,35 @@ class AdminController extends Controller
 
         $thirdHighestRecords = Transaction::where('amount', $thirdHighestAmount)->get();
 
-        return view("admin.dashboard.index", compact("thirdHighestRecords"));
+
+        $transactionAmount = DB::table('transactions')
+            ->select('from', DB::raw('SUM(amount) as total_transactions'))
+            ->groupBy('from')
+            ->orderBy('total_transactions', 'desc')
+            ->first();
+        // dd($transactionAmount);
+        $UserTransactionsTotalAmount = 0;
+        $UserTransactionsAmounts = Transaction::where('from', $transactionAmount->from)->get();
+
+        foreach ($UserTransactionsAmounts as $UserTransactionsAmount) {
+            $UserTransactionsTotalAmount = $UserTransactionsAmount->amount + $UserTransactionsTotalAmount;
+        };
+
+        $transactionNumbers = DB::table('transactions')
+            ->select('from', DB::raw('COUNT(*) as total_transactions'))
+            ->groupBy('from')
+            ->orderBy('total_transactions', 'desc')
+            ->first();
+
+        // dd($transactionNumbers->from);
+        $UserTransactionsTotalNumber = 0;
+        $UserTransactionsNumbers = Transaction::where('from', $transactionNumbers->from)->get();
+
+        foreach ($UserTransactionsNumbers as $UserTransactionsNumber) {
+            $UserTransactionsTotalNumber = $UserTransactionsTotalNumber + 1;
+        };
+
+        return view("admin.dashboard.index", compact("thirdHighestRecords", "transactionNumbers", "UserTransactionsTotalNumber", "transactionAmount", "UserTransactionsTotalAmount"));
     }
 
     public function UserData()
