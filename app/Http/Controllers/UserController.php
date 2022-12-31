@@ -16,29 +16,16 @@ class UserController extends Controller
     public function UserDashboard()
     {
         $supportedCurrencies = SupportedCurrency::all();
-        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
-        $walletBalance = $wallet->amount;
-        // dd($walletBalance);
+        if (Auth::user()->wallet->id == null) {
+            $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+            $walletBalance = $wallet->amount;
+        } else {
+            $walletBalance = "You didn't create a wallet.";
+        }
         $notificationSuccess = array(
             'message' => 'Login successful',
             'alert-type' => 'success',
         );
-
-
-        // $client = new Client();
-        // $response = $client->request('GET', 'https://api.exchangeratesapi.io/latest', [
-        //     'query' => [
-        //         'base' => 'USD',
-        //         'symbols' => 'BDT',
-        //     ]
-        // ]);
-
-        // $data = json_decode($response->getBody(), true);
-        // // dd($data);
-
-        // $exchangeRate = $data['rates']['BDT'];
-        // $bdtAmount = $walletBalance * $exchangeRate;
-        // // dd($bdtAmount);
 
         return view('dashboard', compact("supportedCurrencies", "walletBalance"))->with($notificationSuccess);
     }
