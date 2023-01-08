@@ -166,17 +166,14 @@ class AdminController extends Controller
                     }
 
                     $AdminDeposit->amount = $request->amount;
-                    $gettingWalletAmount->save();
 
                     // updating user wallet with balance
                     $walletUpdate = Wallet::where('email',  $request->to)->first();
                     $totalAmount = ($gettingWalletAmount->amount) + ($request->amount);
                     $walletUpdate->amount = $totalAmount;
-                    $walletUpdate->save();
 
                     // Transaction part
                     $AdminDeposit->status = 1;
-                    $AdminDeposit->save();
 
 
                     // update leftover supply amount
@@ -190,6 +187,9 @@ class AdminController extends Controller
                     $updateSupply = SupplyLeft::find(1);
                     $updateSupply->total_supply_left = $totalSupplyLeft;
                     $updateSupply->save();
+                    $gettingWalletAmount->save();
+                    $walletUpdate->save();
+                    $AdminDeposit->save();
 
 
 

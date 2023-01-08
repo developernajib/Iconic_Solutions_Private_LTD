@@ -4,7 +4,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+            <h6 class="m-0 font-weight-bold text-primary">{{Auth::user()->name}}'s Transactions (Yours)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -18,6 +18,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(gettype($userTransactions) == "string")
+                            {{$userTransactions}}
+                        @endif
+                        
                         @foreach ($userTransactions as $userTransaction)
                             <tr>
                                 <td>{{ $userTransaction->from }}</td>
@@ -28,6 +32,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                <br/>
+                <br/>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>

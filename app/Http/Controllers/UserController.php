@@ -16,16 +16,18 @@ class UserController extends Controller
     public function UserDashboard()
     {
         $supportedCurrencies = SupportedCurrency::all();
-        if (Auth::user()->wallet->id == null) {
+        if(Auth::user()->wallet_id != null){
             $wallet = Wallet::where('user_id', Auth::user()->id)->first();
             $walletBalance = $wallet->amount;
-        } else {
-            $walletBalance = "You didn't create a wallet.";
+        }else{
+            $walletBalance = "You didn't create any wallet";
         }
+
         $notificationSuccess = array(
             'message' => 'Login successful',
             'alert-type' => 'success',
         );
+
 
         return view('dashboard', compact("supportedCurrencies", "walletBalance"))->with($notificationSuccess);
     }
@@ -76,18 +78,19 @@ class UserController extends Controller
 
         $wallet = new Wallet();
         $wallet->user_id = Auth::user()->id;
+        $findUserWallet = Wallet::where('user_id', Auth::user()->id)->first();
 
-        if (!Auth::user()->id == Wallet::find($wallet->user_id)) {
+        if ($findUserWallet != null) {
             return redirect()->back()->with($notification);
         } else {
             $wallet->email = Auth::user()->email;
-            $wallet->save();
             $update_wallet_id = User::find(Auth::user()->id);
             $update_wallet_id->wallet_id = $wallet->id;
             $update_wallet_id->save();
+            $wallet->save();
 
             $notificationSuccess = array(
-                'message' => 'Wallet already exists.',
+                'message' => 'Wallet created successfully.',
                 'alert-type' => 'warning',
             );
 

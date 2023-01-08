@@ -27,7 +27,7 @@
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Transaction:</h6>
-                <a class="collapse-item {{ $route == 'user_transaction_view' ? 'active' : '' }}"
+                <a class="collapse-item {{ $route == 'user_transaction_view' || 'user_transaction_create' ? 'active' : '' }}"
                     href="{{ route('user_transaction_view') }}">View</a>
                 <a class="collapse-item {{ $route == 'user_transaction_create' ? 'active' : '' }}"
                     href="{{ route('user_transaction_create') }}">Create</a>

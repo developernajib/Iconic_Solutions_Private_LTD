@@ -1,5 +1,5 @@
 @extends('user.dashboard_base')
-@section('title', 'User Dashboard')
+@section('title', 'Dashboard')
 @section('user')
 
     @if (Session::has('alert'))
@@ -20,11 +20,11 @@
         </div>
         <form action="{{ route('currency_conversion_store') }}" method="post" class="py-5 px-4">
             @csrf
-            <p><mark><b>Wallet Balance: {{ $walletBalance }}{{ ' ' }}
-                        @if (gettype($walletBalance) == 'integer')
-                            USD
-                        @endif
-                    </b></mark></p>
+            <p><mark><b>Wallet Balance: {{ $walletBalance }}{{" "}}
+            @if(gettype($walletBalance) == "integer")
+                USD
+            @endif
+            </b></mark></p>
             <br>
             <label for="lname">Select Currency</label><br>
             <select name="currency" required="" class="form-control">

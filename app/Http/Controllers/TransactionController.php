@@ -21,13 +21,14 @@ class TransactionController extends Controller
         foreach ($gettingSpecificUserTransactions as $gettingSpecificUserTransaction) {
             $gettingSpecificUserTransactionsAmount = $gettingSpecificUserTransaction->amount + $gettingSpecificUserTransactionsAmount;
         };
-
+        
         // getting user email address to find out his/her transactions
         $gettingUser = Auth::user()->id;
-        $transactions = User::find($gettingUser)->TransactionId->from;
-
-        $userTransactions = Transaction::where('from', $transactions)->get();
+        $userTransactions = Transaction::where('from', Auth::user()->email)->get();
+        
         return view("user.transactions.view_transaction", compact("userTransactions", "gettingSpecificUserTransactionsAmount"));
+        
+        
     }
 
     public function UserTransactionCreate()
@@ -43,7 +44,7 @@ class TransactionController extends Controller
         $checkEmail = $request->to;
         $gettingWalletAmount = User::find(Auth::user()->id)->WalletId->amount;
 
-        if (User::where('email', $checkEmail)->exists()) {
+        if ((User::where('email', $checkEmail)->exists()) && (Wallet::where('email', $checkEmail)->exists())) {
 
             // creating a new transaction
             $userTransactions = new Transaction();
@@ -75,23 +76,24 @@ class TransactionController extends Controller
                 $amount = $walletCurrentAmount - ($request->amount);
                 $getWallet = Wallet::where('email', Auth::user()->email)->first();
                 $getWallet->amount = $amount;
-                $getWallet->save();
+                
 
                 $userTransactions->amount = $request->amount;
                 $userTransactions->status = 1;
-                $userTransactions->save();
+                
 
                 // receiver wallet amount updating
                 $walletUpdate = Wallet::where('email',  $request->to)->first();
                 $amount = $walletUpdate->amount + ($request->amount);
                 $walletUpdate->amount = $amount;
-                $walletUpdate->save();
+                
 
 
                 // update leftover supply amount
                 $totalSupply = TotalSupply::find(1)->total_supply;
                 $WalletCalcs = Wallet::where('supply_id', 1)->get();
                 $supplyLeft = 0;
+                
                 foreach ($WalletCalcs as $WalletCalc) {
                     $supplyLeft = $WalletCalc->amount + $supplyLeft;
                 }
@@ -99,7 +101,10 @@ class TransactionController extends Controller
                 $updateSupply = SupplyLeft::find(1);
                 $updateSupply->total_supply_left = $totalSupplyLeft;
                 $updateSupply->save();
-
+                $supplyLeft = 0;
+                $userTransactions->save();
+                $getWallet->save();
+                $walletUpdate->save();
 
 
                 $notification = array(

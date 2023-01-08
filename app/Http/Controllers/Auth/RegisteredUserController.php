@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Models\Wallet;
 
 class RegisteredUserController extends Controller
 {
@@ -44,10 +45,25 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        
         event(new Registered($user));
 
         Auth::login($user);
+        
+        
+        $userIdFind = Auth::user()->id;
+        
+        Wallet::create([
+            'user_id' => $userIdFind,
+            'email' => $request->email,
+            'amount' => 0,
+            'supply_id' => 1,
+        ]);
+        
+        $wallet = Wallet::where('user_id', Auth::user()->id)->first();
+        $update_wallet_id = User::find(Auth::user()->id);
+        $update_wallet_id->wallet_id = $wallet->id;
+        $update_wallet_id->save();
 
         return redirect(RouteServiceProvider::HOME);
     }
